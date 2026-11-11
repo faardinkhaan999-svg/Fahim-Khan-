@@ -96,8 +96,8 @@ li.leaving{opacity:0;transform:scale(.97);transition:opacity .4s,transform .4s}
 input[type=checkbox]{-webkit-appearance:none;appearance:none;background:#fff;border:2px solid #475569;box-sizing:border-box;outline:0;border-radius:5px;position:relative;margin:0;-webkit-tap-highlight-color:transparent}
 input[type=checkbox]:checked{--g:rgba(37,99,235,.6);background:#2563eb;border-color:#2563eb;box-shadow:0 0 7px 2px var(--g)}
 input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12%;width:30%;height:58%;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
-#login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(160deg,#0b1f3a 0%,#0f4c5c 55%,#0d9488 100%)}
-.lbox{width:100%;max-width:380px;text-align:center;background:#fff;border:0;border-radius:22px;padding:34px 24px 24px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+#login{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;width:100%;padding:24px 20px;box-sizing:border-box;background:#fff}
+.lbox{width:100%;max-width:420px;text-align:center;background:#fff;border:0;border-radius:0;padding:0;box-shadow:none}
 .llogo{width:68px;height:68px;margin:0 auto 16px;border-radius:20px;background:linear-gradient(135deg,#0d9488,#1e40af);display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 10px 24px rgba(13,148,136,.45)}
 #login h1{font-size:23px;margin:0 0 6px;background:none;-webkit-text-fill-color:#0f172a;color:#0f172a;animation:none;font-weight:900}
 #login .hint{background:none;-webkit-text-fill-color:#64748b;color:#64748b;animation:none;font-weight:600;font-size:13px;margin:0}
@@ -115,6 +115,18 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 #ioshint{background:none;-webkit-text-fill-color:#64748b;animation:none;margin-top:10px}
 #lmsg{margin:12px 0 0;font-size:13px;min-height:16px;font-weight:700;background:none;animation:none;-webkit-text-fill-color:#dc2626;color:#dc2626}
 .lnote{margin-top:18px!important;padding-top:14px;border-top:1px solid #e2e8f0}
+#app{padding-bottom:84px}
+.pg h2{font-size:18px;margin:4px 0 12px;font-weight:900;color:#0f172a}
+.acc-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 14px;margin-bottom:14px}
+.acc-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.acc-row:last-child{border-bottom:0}
+.acc-row span{color:var(--muted)}
+.acc-row b{color:var(--text);word-break:break-all;text-align:right}
+#logout{width:100%;padding:13px;border-radius:12px;background:#ef4444;color:#fff;border:0;font-size:15px;font-weight:800;box-shadow:0 6px 16px rgba(239,68,68,.3)}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:#fff;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 14px rgba(15,23,42,.08)}
+#nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;border-radius:10px;padding:6px 2px;font-size:11px;color:var(--muted);box-shadow:none}
+#nav button .ni{font-size:21px;line-height:1}
+#nav button.on{background:none;border:0;color:#0d9488}
 </style>
 </head>
 <body>
@@ -125,6 +137,7 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <div class="ldiv">অথবা</div>
 <button id="gbtn" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg> Google দিয়ে লগ ইন</button><button id="install" type="button" style="display:none"><span>📲 অ্যাপ ইনস্টল করুন</span></button><div id="ioshint" class="hint" style="display:none">iPhone-এ: Safari-র Share বোতাম চেপে "Add to Home Screen" দিন।</div><div id="lmsg" class="warn"></div><p class="hint lnote">🔒 নতুন অ্যাকাউন্ট খোলার সুযোগ নেই। অ্যাডমিন অ্যাকাউন্ট খুলে দেবে।</p></div></div>
 <div id="app" style="display:none">
+<div id="pg-home" class="pg">
 <div class="wrap">
 <header>
 <div class="top"><div class="stat" id="stat"></div><button id="tg" aria-expanded="false"><span>⚙ সব ▾</span></button></div>
@@ -146,12 +159,35 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
   <button id="save-ticks-btn" type="button" style="margin-top:6px;font-size:12px;padding:4px 10px;background:var(--accent);color:#fff;border-color:var(--accent)">সেভ করুন</button>
 </div>
 
-<details class="add"><summary>➕ নতুন নাম ও নাম্বার যোগ করুন</summary><textarea id="newnums" placeholder="যেমন: বিকাশ 017xxxxxxxx&#10;প্রতি লাইনে একটা দিন"></textarea><button id="addbtn"><span>যোগ করুন</span></button> <span id="addmsg" class="hint"></span></details>
 </div>
 </header>
 <ul id="list"></ul>
-<div class="foot"><button id="reset"><span>সব টিক মুছুন</span></button> <button id="install2" type="button" style="display:none"><span>📲 ইনস্টল</span></button> <button id="logout"><span>লগ আউট</span></button></div>
+<div class="foot"><button id="reset"><span>সব টিক মুছুন</span></button> <button id="install2" type="button" style="display:none"><span>📲 ইনস্টল</span></button></div>
 </div>
+</div>
+
+<div id="pg-add" class="pg" style="display:none"><div class="wrap">
+<h2>➕ নাম্বার যোগ করুন</h2>
+<div class="add"><textarea id="newnums" placeholder="যেমন: বিকাশ 017xxxxxxxx&#10;প্রতি লাইনে একটা দিন"></textarea><button id="addbtn"><span>যোগ করুন</span></button> <span id="addmsg" class="hint"></span></div>
+</div></div>
+
+<div id="pg-acc" class="pg" style="display:none"><div class="wrap">
+<h2>👤 মাই অ্যাকাউন্ট</h2>
+<div class="acc-card">
+<div class="acc-row"><span>জিমেইল</span><b id="acc-email">-</b></div>
+<div class="acc-row"><span>মোট নাম্বার</span><b id="acc-total">0</b></div>
+<div class="acc-row"><span>ব্যবহৃত</span><b id="acc-done">0</b></div>
+<div class="acc-row"><span>বাকি</span><b id="acc-left">0</b></div>
+</div>
+<button id="logout" type="button"><span>🚪 লগ আউট</span></button>
+</div></div>
+
+<nav id="nav">
+<button type="button" data-p="home" class="on"><span class="ni">🏠</span><span>হোম</span></button>
+<button type="button" id="navcare"><span class="ni">🎧</span><span>কাস্টমার কেয়ার</span></button>
+<button type="button" data-p="add"><span class="ni">➕</span><span>নাম্বার যোগ</span></button>
+<button type="button" data-p="acc"><span class="ni">👤</span><span>মাই অ্যাকাউন্ট</span></button>
+</nav>
 </div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -343,6 +379,9 @@ function updateStat(){
   const iCount = NUMS.filter(item => getTickSet("i").has(item) || getTickSet("m1i").has(item) || getTickSet("m2i").has(item)).length;
   document.getElementById("stat").textContent="ব্যবহৃত: "+c+" / "+NUMS.length+" · বাকি: "+(NUMS.length-c)+" · WhatsApp: "+wCount+" · imo: "+iCount;
   document.getElementById("bar").style.width=(NUMS.length?c/NUMS.length*100:0)+"%";
+  document.getElementById("acc-total").textContent=NUMS.length;
+  document.getElementById("acc-done").textContent=c;
+  document.getElementById("acc-left").textContent=NUMS.length-c;
 }
 
 list.addEventListener("click",async e=>{
@@ -419,6 +458,24 @@ document.getElementById("addbtn").onclick=async()=>{
   }catch(e){document.getElementById("addmsg").textContent="যোগ করা যায়নি"}
 };
 
+const pageIds={home:"pg-home",add:"pg-add",acc:"pg-acc"};
+function showPage(p){
+  Object.keys(pageIds).forEach(k=>{document.getElementById(pageIds[k]).style.display=k===p?"block":"none"});
+  document.querySelectorAll("#nav button[data-p]").forEach(b=>b.classList.toggle("on",b.dataset.p===p));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("#nav button[data-p]").forEach(b=>{b.onclick=()=>showPage(b.dataset.p)});
+
+// কাস্টমার কেয়ার: চাপ দিলে সরাসরি WhatsApp-এ মেসেজসহ চ্যাট খুলবে
+const SUPPORT_NUM="01845907321";
+const SUPPORT_MSG="আসসালামু আলাইকুম, আমার একটি সমস্যা হচ্ছে। অনুগ্রহ করে সমস্যাটি সমাধানে একটু সহযোগিতা করবেন। আপনার সাহায্যের জন্য আগাম ধন্যবাদ।";
+document.getElementById("navcare").onclick=()=>{
+  const p=intl(SUPPORT_NUM),t=encodeURIComponent(SUPPORT_MSG);
+  const web="https://wa.me/"+p+"?text="+t;
+  const url=IS_AND?"intent://send?phone="+p+"&text="+t+"#Intent;scheme=whatsapp;package=com.whatsapp;S.browser_fallback_url="+encodeURIComponent(web)+";end":web;
+  if(FRAMED)window.open(web,"_blank");else location.href=url;
+};
+
 document.getElementById("logout").onclick=()=>signOut(auth);
 
 async function emailLogin(){
@@ -462,6 +519,8 @@ onAuthStateChanged(auth,async user=>{
 
   document.getElementById("login").style.display="none";
   document.getElementById("app").style.display="block";
+  document.getElementById("acc-email").textContent=user.email||"-";
+  showPage("home");
   renderConfigEditor();
   renderTabs();
   if(unsubSnap){unsubSnap();unsubSnap=null}
