@@ -424,7 +424,19 @@ onAuthStateChanged(auth,async user=>{
     document.getElementById("login").style.display="flex";
     return;
   }
-  const ok = ["9w.fahimkhan@gmail.com"].includes((user.email||"").toLowerCase()) || user.uid==="Q9dErcUg8dN1A2c3jjSYSJFNH0n1";
+  const ok =
+  [
+    "9w.fahimkhan@gmail.com",
+    "himelsheikh.9w@gmail.com",
+    "নতুন_GMAIL_3@gmail.com",
+    "নতুন_GMAIL_4@gmail.com"
+  ].includes((user.email || "").toLowerCase()) ||
+  [
+    "Q9dErcUg8dN1A2c3jjSYSJFNH0n1",
+    "qqGBet1h6oXdvkAlFH6w54QXsDA2",
+    "নতুন_UID_3",
+    "নতুন_UID_4"
+  ].includes(user.uid);
   if(!ok){await signOut(auth);return;}
   document.getElementById("login").style.display="none";
   document.getElementById("app").style.display="block";
