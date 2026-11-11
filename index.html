@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>নাম্বার চেকলিস্ট</title>
+<title>নাম্বার Fahim Khan </title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -31,14 +31,16 @@ li.done{background:var(--accentbg)}
 li.done .num,li.nf .num{text-decoration:line-through;text-decoration-color:#d4a017;text-decoration-thickness:2.5px;color:var(--muted)}
 input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:none}
 .idx{color:var(--muted);font-size:12px;width:28px;flex:none;text-align:right}
-.num{flex:1;font-size:17px;font-variant-numeric:tabular-nums}
+.num-container{flex:1;display:flex;flex-direction:column;min-width:0}
+.name-title{font-size:15px;font-weight:900;color:#0d9488;margin-bottom:2px}
+.num{font-size:16px;font-variant-numeric:tabular-nums;color:var(--text)}
 .cp{padding:5px 10px;font-size:12px}
 .foot{display:flex;justify-content:center;margin:16px 0}
 li{gap:8px}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;flex:none;border:0;padding:0;color:#fff;font-weight:700;font-size:12px;text-decoration:none;cursor:pointer}
 .wa{background:#25d366}
 .imo{background:#1a8cff;font-size:11px;font-style:italic}
-.cp{padding:5px 8px;font-size:14px}
+.del-btn{background:#ef4444;color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;box-shadow:0 0 5px rgba(239,68,68,0.5)}
 textarea{width:100%;box-sizing:border-box;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font:inherit;font-size:14px;resize:vertical;min-height:64px}
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 li{flex-wrap:wrap}
@@ -75,7 +77,6 @@ li.bad .wa{opacity:.55}
 #panel.open{display:block}
 #panel h1{margin-top:2px}
 li{border:4.5px solid #0d9488;padding:12px 10px;gap:6px}
-.num{white-space:nowrap;font-size:16px;min-width:0}
 .warn{white-space:normal}
 .idx{width:18px}
 .ic{width:30px;height:30px}
@@ -116,7 +117,7 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <div class="bar"><i id="bar"></i></div>
 <div id="panel">
 <h1>📞 নাম্বার চেকলিস্ট</h1>
-<input type="search" id="q" placeholder="নাম্বার খুঁজুন…">
+<input type="search" id="q" placeholder="নাম্বার বা নাম খুঁজুন…">
 <textarea id="msg" placeholder="পাঠানোর মেসেজ"></textarea>
 <div class="hint">WhatsApp বোতামে চাপলে এই মেসেজসহ চ্যাট খুলবে। imo বোতামে চাপলে মেসেজ কপি হয়ে imo অ্যাপ খুলবে, সেখানে পেস্ট করুন।</div>
 <div class="tabs">
@@ -129,7 +130,7 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <button data-f="none"><span>কোনো কিছু খুঁজে পাই নাই</span></button>
 <button data-f="c"><span>সব কমপ্লিট</span></button>
 </div>
-<details class="add"><summary>➕ নতুন নাম্বার যোগ করুন</summary><textarea id="newnums" placeholder="এখানে নাম্বার পেস্ট করুন, প্রতি লাইনে একটা"></textarea><button id="addbtn"><span>যোগ করুন</span></button> <span id="addmsg" class="hint"></span></details>
+<details class="add"><summary>➕ নতুন নাম ও নাম্বার যোগ করুন</summary><textarea id="newnums" placeholder="যেমন: বিকাশ 017xxxxxxxx&#10;প্রতি লাইনে একটা দিন"></textarea><button id="addbtn"><span>যোগ করুন</span></button> <span id="addmsg" class="hint"></span></details>
 </div>
 </header>
 <ul id="list"></ul>
@@ -139,7 +140,7 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import{getFirestore,doc,getDoc,setDoc,onSnapshot,arrayUnion}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import{getFirestore,doc,getDoc,setDoc,onSnapshot,arrayUnion,arrayRemove}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig={
   apiKey:"AIzaSyA5xbN9TkQnEj2Ec2OVxCrG46H_1kvbK4I",
   authDomain:"faheem-khan-7f94f.firebaseapp.com",
@@ -166,9 +167,21 @@ XK.forEach(k=>{X[k]=new Set();try{X[k]=new Set(JSON.parse(localStorage.getItem("
 function setOf(k){return X[k]||{w:W,i:I,ni:NI,nw:NW,io:IO,wo:WO,c:C}[k]}
 function isDone(n){return C.has(n)}
 function hasNoTick(n){return ![W,I,NI,NW,C].concat(XK.map(k=>X[k])).some(s=>s.has(n))}
+
+// পার্স করার ফাংশন: "বিকাশ 017xxxxxxxx" থেকে নাম ও নাম্বার আলাদা করা
+function parseItem(item){
+  const parts = String(item).trim().split(/\s+/);
+  if(parts.length > 1 && /\d/.test(parts[parts.length-1])){
+    const num = parts.pop();
+    const name = parts.join(" ");
+    return {name, num};
+  }
+  return {name: "", num: item};
+}
+
 const TLAB2=[["i","imo-তে নক দিয়েছি"],["ni","imo-তে পাই নাই"],["w","WhatsApp-এ নক দিয়েছি"],["nw","WhatsApp-এ পাই নাই"],["io","imo-তে পেয়েছি, WhatsApp-এ পাই নাই"],["wo","WhatsApp-এ পেয়েছি, imo-তে পাই নাই"]];
 const TLAB=[["i","imo-তে নক দিয়েছি"],["w","WhatsApp-এ নক দিয়েছি"],["ni","imo-তে পাই নাই"],["nw","WhatsApp-এ পাই নাই"],["io","imo-তে পেয়েছি, WhatsApp-এ পাই নাই"]];
-const TLAB3=TLAB2.slice(0,4).concat([["m1i","1  IMO লাস্ট নাম্বার 50  মেসেজ দিছি"],["m2i","2 IMO লাস্ট নাম্বার 29 মেসেজ দিছি"],["m1w","1 WhatsApp লাস্ট নাম্বার 50 মেসেজ দিছি"],["m1b","1 WhatsApp business last number 30 মেসেজ দিছি"],["m2b","2 WhatsApp business লাস্ট নাম্বার 29 মেসেজ দিছি"],["none","কোনো কিছু খুঁজে পাই নাই"],["c","সব কমপ্লিট"]]);
+const TLAB3=TLAB2.slice(0,4).concat([["m1i","1 IMO লাস্ট নাম্বার 50 মেসেজ দিছি"],["m2i","2 IMO লাস্ট নাম্বার 29 মেসেজ দিছি"],["m1w","1 WhatsApp লাস্ট নাম্বার 50 মেসেজ দিছি"],["m1b","1 WhatsApp business last number 30 মেসেজ দিছি"],["m2b","2 WhatsApp business লাস্ট নাম্বার 29 মেসেজ দিছি"],["none","কোনো কিছু খুঁজে পাই নাই"],["c","সব কমপ্লিট"]]);
 function ticksHtml(n){return '<div class="ticks">'+TLAB3.map(([k,t])=>'<label><input type="checkbox" data-k="'+k+'"'+(setOf(k).has(n)?" checked":"")+'> '+t+'</label>').join("")+'</div>'}
 function save(){try{localStorage.setItem(KEY,JSON.stringify([...done]));localStorage.setItem("fk2-w",JSON.stringify([...W]));localStorage.setItem("fk2-i",JSON.stringify([...I]));localStorage.setItem("fk2-ni",JSON.stringify([...NI]));localStorage.setItem("fk2-nw",JSON.stringify([...NW]));localStorage.setItem("fk2-io",JSON.stringify([...IO]));localStorage.setItem("fk2-wo",JSON.stringify([...WO]));localStorage.setItem("fk2-c",JSON.stringify([...C]));XK.forEach(k=>localStorage.setItem("fk2-"+k,JSON.stringify([...X[k]])))}catch(e){}}
 const DEFAULT_MSG="আসসালামু আলাইকুম ভাই, 9 উইকেট থেকে অনলাইন মাস্টারে আদিন খান বলছি।";
@@ -189,18 +202,31 @@ const TICK_FILTERS=["i","ni","w","nw","none","c"];
 function render(){
   const t=term.replace(/[\s\-+]/g,"");
   list.innerHTML="";
-  NUMS.forEach((n,i)=>{
-    const d=isDone(n);
-    if(filter==="todo"&&!hasNoTick(n))return;
-    if(TICK_FILTERS.includes(filter)&&!setOf(filter).has(n))return;
-    if(t&&!n.replace(/[\s\-+]/g,"").includes(t))return;
+  NUMS.forEach((item,i)=>{
+    const {name, num} = parseItem(item);
+    const d=isDone(item);
+    if(filter==="todo"&&!hasNoTick(item))return;
+    if(TICK_FILTERS.includes(filter)&&!setOf(filter).has(item))return;
+    if(t&&!item.replace(/[\s\-+]/g,"").includes(t))return;
     const li=document.createElement("li");
     if(d)li.className="done";
-    if(X.none.has(n))li.className+=" nf";
-    if(!valid(n))li.className+=" bad";
-    li.innerHTML='<span class="idx">'+(i+1)+'</span><span class="num">'+n+(valid(n)?'':'<small class="warn">⚠ অসম্পূর্ণ নাম্বার, WhatsApp নাও খুলতে পারে</small>')+'</span>'+waBtns(n)+'<a class="ic imo" target="_blank" rel="noopener" title="imo" href="'+imoUrl()+'">imo</a><button class="cp" title="নাম্বার কপি">📋</button>'+ticksHtml(n)+'';
+    if(X.none.has(item))li.className+=" nf";
+    if(!valid(num))li.className+=" bad";
+    
+    // নাম ও নাম্বার বিন্যাস এবং ডিলিট বাটন যুক্ত করা হয়েছে
+    li.innerHTML='<span class="idx">'+(i+1)+'</span>' +
+      '<div class="num-container">' +
+      (name ? '<span class="name-title">'+name+'</span>' : '') +
+      '<span class="num">'+num+(valid(num)?'':'<small class="warn">⚠ অসম্পূর্ণ নাম্বার</small>')+'</span>' +
+      '</div>' +
+      waBtns(num)+
+      '<a class="ic imo" target="_blank" rel="noopener" title="imo" href="'+imoUrl()+'">imo</a>' +
+      '<button class="cp" title="নাম্বার কপি">📋</button>' +
+      '<button class="del-btn" title="ডিলিট করুন">✕</button>' +
+      ticksHtml(item);
+
     if(!FRAMED)li.querySelectorAll("a.ic").forEach(a=>a.removeAttribute("target"));
-    li.dataset.n=n;
+    li.dataset.n=item;
     list.appendChild(li);
   });
   if(!NUMS.length)list.innerHTML='<li style="cursor:default">কোনো নাম্বার নেই</li>';
@@ -212,14 +238,32 @@ function updateStat(){
   document.getElementById("bar").style.width=(NUMS.length?c/NUMS.length*100:0)+"%";
 }
 function matches(n){return (filter!=="todo"||hasNoTick(n))&&(!TICK_FILTERS.includes(filter)||setOf(filter).has(n))}
-list.addEventListener("click",e=>{
+
+list.addEventListener("click",async e=>{
   const li=e.target.closest("li");if(!li)return;
   const n=li.dataset.n;
+  
+  // ডিলিট বাটনের ফাংশনালিটি
+  const delBtn=e.target.closest(".del-btn");
+  if(delBtn){
+    if(confirm("এই নাম্বারটি ডিলিট করতে চান?")){
+      try{
+        await setDoc(NUMREF,{nums:arrayRemove(n)},{merge:true});
+      }catch(err){alert("ডিলিট করা যায়নি");}
+    }
+    return;
+  }
+
   const im=e.target.closest(".imo");
   if(im){try{navigator.clipboard.writeText(MSG)}catch(x){}im.textContent="✓";setTimeout(()=>im.textContent="imo",1200);return}
   const cp=e.target.closest(".cp");
-  if(cp){try{navigator.clipboard.writeText(n)}catch(x){}cp.textContent="✓";setTimeout(()=>cp.textContent="📋",900)}
+  if(cp){
+    const {num} = parseItem(n);
+    try{navigator.clipboard.writeText(num)}catch(x){}
+    cp.textContent="✓";setTimeout(()=>cp.textContent="📋",900);
+  }
 });
+
 list.addEventListener("change",e=>{
   const cb=e.target.closest("input[data-k]");if(!cb)return;
   const li=cb.closest("li"),n=li.dataset.n,s=setOf(cb.dataset.k);
@@ -259,7 +303,6 @@ document.getElementById("addbtn").onclick=async()=>{
 };
 document.getElementById("logout").onclick=()=>signOut(auth);
 
-// জিমেইল + পাসওয়ার্ড দিয়ে লগ ইন (সাইন আপ নেই)
 async function emailLogin(){
   const m=document.getElementById("lmsg");m.textContent="";
   const em=document.getElementById("lemail").value.trim();
@@ -272,7 +315,7 @@ async function emailLogin(){
     else if(c==="auth/invalid-email")m.textContent="জিমেইল ঠিকভাবে লিখুন";
     else if(c==="auth/too-many-requests")m.textContent="অনেকবার ভুল হয়েছে, একটু পরে চেষ্টা করুন";
     else if(c==="auth/network-request-failed")m.textContent="ইন্টারনেট সংযোগ চেক করুন";
-    else if(c==="auth/operation-not-allowed")m.textContent="জিমেইল-পাসওয়ার্ড লগ ইন চালু করা নেই (অ্যাডমিন চালু করবে)";
+    else if(c==="auth/operation-not-allowed")m.textContent="জিমেইল-পাসওয়ার্ড লগ ইন চালু করা নেই";
     else m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";
   }
 }
@@ -289,7 +332,6 @@ document.getElementById("gbtn").onclick=async()=>{
   }
 };
 
-// অ্যাপ ইনস্টল
 let dip=null;
 const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
 const isIOS=/iPad|iPhone|iPod/i.test(navigator.userAgent);
@@ -308,11 +350,8 @@ function showLogin(msg){
 }
 onAuthStateChanged(auth,async user=>{
   if(!user){showLogin();return}
-  
-  // সরাসরি আপনার ইমেইল ও ইউআইডি দিয়ে এক্সেস অনুমোদন দেওয়া হলো
   const allowedEmails = ["9w.fahimkhan@gmail.com"];
   const allowedUIDs = ["Q9dErcUg8dN1A2c3jjSYSJFNH0n1"];
-  
   const userEmail = (user.email || "").toLowerCase();
   const ok = allowedEmails.includes(userEmail) || allowedUIDs.includes(user.uid);
   const admin = true;
