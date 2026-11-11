@@ -97,10 +97,18 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 .lbox{width:100%;max-width:360px;text-align:center;background:var(--card);border:4.5px solid #0d9488;border-radius:16px;padding:28px 20px}
 #gbtn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;font-size:16px;background:#fff;color:#0f172a;border:2px solid #475569;border-radius:12px;margin:12px 0}
 #lmsg{margin:6px 0;font-size:13px;min-height:16px}
+#lemail,#lpass{width:100%;padding:11px 12px;border:2px solid #475569;border-radius:10px;background:#fff;color:#0f172a;font-size:16px;font-weight:600;box-sizing:border-box;margin-top:10px}
+#ebtn{width:100%;margin-top:12px;padding:12px;font-size:16px;background:var(--accent);color:#fff;border:2px solid var(--accent);border-radius:12px}
+.or{margin:10px 0 0}
 </style>
 </head>
 <body>
-<div id="login"><div class="lbox"><h1>📞 নাম্বার চেকলিস্ট</h1><p class="hint">চালিয়ে যেতে Google দিয়ে লগ ইন করুন</p><button id="gbtn" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.800 2.400 30.300 0 24 0 14.600 0 6.500 5.400 2.600 13.200l7.900 6.100C12.400 13.600 17.700 9.500 24 9.500z"/><path fill="#4285F4" d="M46.500 24.500c0-1.600-.1-3.100-.4-4.500H24v9h12.700c-.6 3-2.300 5.500-4.800 7.200l7.600 5.900c4.400-4.100 7-10.100 7-17.600z"/><path fill="#FBBC05" d="M10.500 28.700A14.500 14.500 0 0 1 9.500 24c0-1.600.3-3.200.8-4.700l-7.900-6.100A24 24 0 0 0 0 24c0 3.900.9 7.500 2.600 10.800l7.900-6.100z"/><path fill="#34A853" d="M24 48c6.500 0 11.900-2.100 15.900-5.800l-7.600-5.900c-2.100 1.400-4.900 2.300-8.300 2.300-6.300 0-11.600-4.100-13.500-9.800l-7.900 6.100C6.500 42.600 14.600 48 24 48z"/></svg> Google দিয়ে লগ ইন</button><button id="install" type="button" style="display:none"><span>📲 অ্যাপ ইনস্টল করুন</span></button><div id="ioshint" class="hint" style="display:none">iPhone-এ: Safari-র Share বোতাম চেপে "Add to Home Screen" দিন।</div><div id="lmsg" class="warn"></div><p class="hint">নতুন অ্যাকাউন্ট খোলার সুযোগ নেই। অ্যাডমিন অ্যাকাউন্ট খুলে দেবে।</p></div></div>
+<div id="login"><div class="lbox"><h1>📞 নাম্বার চেকলিস্ট</h1><p class="hint">চালিয়ে যেতে লগ ইন করুন</p>
+<input type="email" id="lemail" placeholder="জিমেইল" autocomplete="username" autocapitalize="none" spellcheck="false">
+<input type="password" id="lpass" placeholder="জিমেইল পাসওয়ার্ড" autocomplete="current-password">
+<button id="ebtn" type="button">লগ ইন</button>
+<p class="hint or">অথবা</p>
+<button id="gbtn" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.800 2.400 30.300 0 24 0 14.600 0 6.500 5.400 2.600 13.200l7.900 6.100C12.400 13.600 17.700 9.500 24 9.500z"/><path fill="#4285F4" d="M46.500 24.500c0-1.600-.1-3.100-.4-4.500H24v9h12.700c-.6 3-2.300 5.500-4.800 7.200l7.600 5.900c4.400-4.100 7-10.100 7-17.600z"/><path fill="#FBBC05" d="M10.500 28.700A14.500 14.500 0 0 1 9.500 24c0-1.600.3-3.200.8-4.700l-7.900-6.100A24 24 0 0 0 0 24c0 3.900.9 7.500 2.600 10.800l7.900-6.100z"/><path fill="#34A853" d="M24 48c6.500 0 11.900-2.100 15.900-5.800l-7.600-5.900c-2.100 1.400-4.900 2.300-8.300 2.300-6.300 0-11.600-4.100-13.500-9.800l-7.900 6.100C6.500 42.600 14.600 48 24 48z"/></svg> Google দিয়ে লগ ইন</button><button id="install" type="button" style="display:none"><span>📲 অ্যাপ ইনস্টল করুন</span></button><div id="ioshint" class="hint" style="display:none">iPhone-এ: Safari-র Share বোতাম চেপে "Add to Home Screen" দিন।</div><div id="lmsg" class="warn"></div><p class="hint">নতুন অ্যাকাউন্ট খোলার সুযোগ নেই। অ্যাডমিন অ্যাকাউন্ট খুলে দেবে।</p></div></div>
 <div id="app" style="display:none">
 <div class="wrap">
 <header>
@@ -130,14 +138,15 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 </div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc,onSnapshot,arrayUnion}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// ⚠ নিচের জায়গায় Firebase Console থেকে পাওয়া নিজের firebaseConfig বসান
 const firebaseConfig={
-  apiKey:"YOUR_API_KEY",
-  authDomain:"YOUR_PROJECT.firebaseapp.com",
-  projectId:"YOUR_PROJECT",
-  appId:"YOUR_APP_ID"
+  apiKey:"AIzaSyA5xbN9TkQnEj2Ec2OVxCrG46H_1kvbK4I",
+  authDomain:"faheem-khan-7f94f.firebaseapp.com",
+  projectId:"faheem-khan-7f94f",
+  storageBucket:"faheem-khan-7f94f.firebasestorage.app",
+  messagingSenderId:"934253739357",
+  appId:"1:934253739357:web:2e3126885b652cbc5efcb4"
 };
 const fbApp=initializeApp(firebaseConfig);
 const auth=getAuth(fbApp),db=getFirestore(fbApp);
@@ -249,6 +258,27 @@ document.getElementById("addbtn").onclick=async()=>{
   }catch(e){document.getElementById("addmsg").textContent="যোগ করা যায়নি (শুধু অ্যাডমিন পারবে)"}
 };
 document.getElementById("logout").onclick=()=>signOut(auth);
+
+// জিমেইল + পাসওয়ার্ড দিয়ে লগ ইন (সাইন আপ নেই)
+async function emailLogin(){
+  const m=document.getElementById("lmsg");m.textContent="";
+  const em=document.getElementById("lemail").value.trim();
+  const pw=document.getElementById("lpass").value;
+  if(!em||!pw){m.textContent="জিমেইল আর পাসওয়ার্ড দুটোই দিন";return}
+  try{await signInWithEmailAndPassword(auth,em,pw)}
+  catch(e){
+    const c=e.code;
+    if(c==="auth/invalid-credential"||c==="auth/wrong-password"||c==="auth/user-not-found")m.textContent="জিমেইল বা পাসওয়ার্ড ভুল";
+    else if(c==="auth/invalid-email")m.textContent="জিমেইল ঠিকভাবে লিখুন";
+    else if(c==="auth/too-many-requests")m.textContent="অনেকবার ভুল হয়েছে, একটু পরে চেষ্টা করুন";
+    else if(c==="auth/network-request-failed")m.textContent="ইন্টারনেট সংযোগ চেক করুন";
+    else if(c==="auth/operation-not-allowed")m.textContent="জিমেইল-পাসওয়ার্ড লগ ইন চালু করা নেই (অ্যাডমিন চালু করবে)";
+    else m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";
+  }
+}
+document.getElementById("ebtn").onclick=emailLogin;
+document.getElementById("lpass").addEventListener("keydown",e=>{if(e.key==="Enter")emailLogin()});
+
 document.getElementById("gbtn").onclick=async()=>{
   const m=document.getElementById("lmsg");m.textContent="";
   const p=new GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
@@ -279,7 +309,7 @@ function showLogin(msg){
 onAuthStateChanged(auth,async user=>{
   if(!user){showLogin();return}
   let ok=false,admin=false;
-  try{const a=await getDoc(doc(db,"allowed",user.email));ok=a.exists();admin=ok&&a.data().admin===true}catch(e){}
+  try{const a=await getDoc(doc(db,"allowed",user.email.toLowerCase()));ok=a.exists();admin=ok&&a.data().admin===true}catch(e){}
   if(!ok){await signOut(auth);showLogin("এই অ্যাকাউন্টে ঢোকার অনুমতি নেই। অ্যাডমিনকে জানান।");return}
   document.getElementById("login").style.display="none";
   document.getElementById("app").style.display="block";
