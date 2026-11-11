@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>নাম্বার Fahim Khan </title>
+<title>নাম্বার চেকলিস্ট</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@ input[type=search]{width:100%;padding:10px 12px;border:1px solid var(--line);bor
 button{font:inherit;font-size:14px;padding:7px 12px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;cursor:pointer}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 ul{list-style:none;margin:8px 0 0;padding:0}
-li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+li{position:relative;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;padding-bottom:28px;margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 li.done{background:var(--accentbg)}
 li.done .num,li.nf .num{text-decoration:line-through;text-decoration-color:#d4a017;text-decoration-thickness:2.5px;color:var(--muted)}
 input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:none}
@@ -36,15 +36,14 @@ input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:none
 .num{font-size:16px;font-variant-numeric:tabular-nums;color:var(--text)}
 .cp{padding:5px 10px;font-size:12px}
 .foot{display:flex;justify-content:center;margin:16px 0}
-li{gap:8px}
 .ic{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;flex:none;border:0;padding:0;color:#fff;font-weight:700;font-size:12px;text-decoration:none;cursor:pointer}
 .wa{background:#25d366}
 .imo{background:#1a8cff;font-size:11px;font-style:italic}
-.del-btn{background:#ef4444;color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;box-shadow:0 0 5px rgba(239,68,68,0.5)}
+.del-btn{position:absolute;right:10px;bottom:6px;background:#ef4444;color:#fff;border:none;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;box-shadow:0 1px 3px rgba(239,68,68,0.4)}
 textarea{width:100%;box-sizing:border-box;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font:inherit;font-size:14px;resize:vertical;min-height:64px}
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 li{flex-wrap:wrap}
-.ticks{flex-basis:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;padding-left:36px;font-size:13px}
+.ticks{flex-basis:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;padding-left:36px;font-size:13px;margin-top:4px}
 .ticks label{align-items:flex-start}
 .ticks label{display:flex;align-items:center;gap:6px;cursor:pointer}
 .ticks input{width:20px;height:20px}
@@ -168,7 +167,6 @@ function setOf(k){return X[k]||{w:W,i:I,ni:NI,nw:NW,io:IO,wo:WO,c:C}[k]}
 function isDone(n){return C.has(n)}
 function hasNoTick(n){return ![W,I,NI,NW,C].concat(XK.map(k=>X[k])).some(s=>s.has(n))}
 
-// পার্স করার ফাংশন: "বিকাশ 017xxxxxxxx" থেকে নাম ও নাম্বার আলাদা করা
 function parseItem(item){
   const parts = String(item).trim().split(/\s+/);
   if(parts.length > 1 && /\d/.test(parts[parts.length-1])){
@@ -213,7 +211,7 @@ function render(){
     if(X.none.has(item))li.className+=" nf";
     if(!valid(num))li.className+=" bad";
     
-    // নাম ও নাম্বার বিন্যাস এবং ডিলিট বাটন যুক্ত করা হয়েছে
+    // ডিলিট বাটনটি একদম নিচে ডান কোণায় বসানো হয়েছে
     li.innerHTML='<span class="idx">'+(i+1)+'</span>' +
       '<div class="num-container">' +
       (name ? '<span class="name-title">'+name+'</span>' : '') +
@@ -222,7 +220,7 @@ function render(){
       waBtns(num)+
       '<a class="ic imo" target="_blank" rel="noopener" title="imo" href="'+imoUrl()+'">imo</a>' +
       '<button class="cp" title="নাম্বার কপি">📋</button>' +
-      '<button class="del-btn" title="ডিলিট করুন">✕</button>' +
+      '<button class="del-btn" title="ডিলিট করুন">✕ ডিলিট</button>' +
       ticksHtml(item);
 
     if(!FRAMED)li.querySelectorAll("a.ic").forEach(a=>a.removeAttribute("target"));
@@ -243,7 +241,6 @@ list.addEventListener("click",async e=>{
   const li=e.target.closest("li");if(!li)return;
   const n=li.dataset.n;
   
-  // ডিলিট বাটনের ফাংশনালিটি
   const delBtn=e.target.closest(".del-btn");
   if(delBtn){
     if(confirm("এই নাম্বারটি ডিলিট করতে চান?")){
