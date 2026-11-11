@@ -308,8 +308,15 @@ function showLogin(msg){
 }
 onAuthStateChanged(auth,async user=>{
   if(!user){showLogin();return}
-  let ok=false,admin=false;
-  try{const a=await getDoc(doc(db,"allowed",user.email.toLowerCase()));ok=a.exists();admin=ok&&a.data().admin===true}catch(e){}
+  
+  // সরাসরি আপনার ইমেইল ও ইউআইডি দিয়ে এক্সেস অনুমোদন দেওয়া হলো
+  const allowedEmails = ["9w.fahimkhan@gmail.com"];
+  const allowedUIDs = ["Q9dErcUg8dN1A2c3jjSYSJFNH0n1"];
+  
+  const userEmail = (user.email || "").toLowerCase();
+  const ok = allowedEmails.includes(userEmail) || allowedUIDs.includes(user.uid);
+  const admin = true;
+
   if(!ok){await signOut(auth);showLogin("এই অ্যাকাউন্টে ঢোকার অনুমতি নেই। অ্যাডমিনকে জানান।");return}
   document.getElementById("login").style.display="none";
   document.getElementById("app").style.display="block";
