@@ -127,7 +127,6 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <button data-f="todo"><span>বাকি</span></button>
 </div>
 
-<!-- চেকবক্স লেবেল এডিট বা কাস্টমাইজ করার প্যানেল -->
 <div class="config-box">
   <div style="font-weight:900;margin-bottom:6px;font-size:14px;color:#0d9488">⚙ চেকবক্স নাম ও এডিট প্যানেল</div>
   <div id="ticks-config-list"></div>
@@ -159,7 +158,6 @@ const auth=getAuth(fbApp),db=getFirestore(fbApp);
 const NUMREF=doc(db,"data","fahim");
 let NUMS=[];
 
-// ডিফল্ট চেকবক্স লিস্ট (আইডি এবং নাম)
 let tickConfigs = JSON.parse(localStorage.getItem("fk2_tick_configs") || JSON.stringify([
   {id: "i", label: "imo-তে নক দিয়েছি"},
   {id: "ni", label: "imo-তে পাই নাই"},
@@ -241,6 +239,7 @@ function renderConfigEditor(){
 document.getElementById("add-tick-btn").onclick = () => {
   const newId = "t_" + Date.now();
   tickConfigs.push({id: newId, label: "নতুন চেকবক্স"});
+  if(!checkboxData[newId]) checkboxData[newId] = new Set();
   renderConfigEditor();
 };
 
@@ -362,12 +361,20 @@ list.addEventListener("change",e=>{
 
 document.getElementById("q").oninput=e=>{term=e.target.value;render()};
 
+let flabel="সব";
+const tgBtn=document.getElementById("tg"),panelEl=document.getElementById("panel");
+function setTg(){const o=panelEl.classList.contains("open");tgBtn.classList.toggle("open",o);tgBtn.setAttribute("aria-expanded",o);tgBtn.firstElementChild.textContent=o?"▴ ছোট করুন":"⚙ "+flabel+" ▾"}
+tgBtn.onclick=()=>{panelEl.classList.toggle("open");setTg()};
+
 document.getElementById("tabs-container").addEventListener("click", e => {
   const btn = e.target.closest("button");
   if(!btn) return;
   document.querySelectorAll("#tabs-container button").forEach(x=>x.classList.remove("on"));
   btn.classList.add("on");
   filter = btn.dataset.f;
+  flabel = btn.textContent.trim();
+  panelEl.classList.remove("open");
+  setTg();
   render();
   window.scrollTo(0,0);
 });
