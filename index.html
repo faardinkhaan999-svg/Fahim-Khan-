@@ -26,7 +26,7 @@ input[type=search]{width:100%;padding:10px 12px;border:1px solid var(--line);bor
 button{font:inherit;font-size:14px;padding:7px 12px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;cursor:pointer}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 ul{list-style:none;margin:8px 0 0;padding:0}
-li{position:relative;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;padding-bottom:28px;margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+li{position:relative;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;padding-bottom:36px;margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 li.done{background:var(--accentbg)}
 li.done .num,li.nf .num{text-decoration:line-through;text-decoration-color:#d4a017;text-decoration-thickness:2.5px;color:var(--muted)}
 input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:none}
@@ -39,7 +39,7 @@ input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:none
 .ic{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;flex:none;border:0;padding:0;color:#fff;font-weight:700;font-size:12px;text-decoration:none;cursor:pointer}
 .wa{background:#25d366}
 .imo{background:#1a8cff;font-size:11px;font-style:italic}
-.del-btn{position:absolute;right:10px;bottom:6px;background:#ef4444;color:#fff;border:none;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;box-shadow:0 1px 3px rgba(239,68,68,0.4)}
+.del-btn{position:absolute;right:10px;bottom:6px;background:#ef4444;color:#fff;border:none;border-radius:999px;padding:4px 12px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;box-shadow:0 1px 3px rgba(239,68,68,0.4)}
 textarea{width:100%;box-sizing:border-box;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font:inherit;font-size:14px;resize:vertical;min-height:64px}
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 li{flex-wrap:wrap}
@@ -49,6 +49,9 @@ li{flex-wrap:wrap}
 .ticks input{width:20px;height:20px}
 .ticks label:nth-child(n+5){grid-column:1/-1}
 .ticks label:last-child{font-weight:600}
+.config-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px}
+.config-item{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.config-item input{flex:1;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:13px}
 @keyframes shine{from{background-position:150% 0}to{background-position:-50% 0}}
 h1,.stat,.hint,.add summary,.tabs button span,#tg span,#reset span,#addbtn span{background-image:linear-gradient(110deg,var(--b,var(--text)) 40%,#c9a227 50%,var(--b,var(--text)) 60%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shine 4s linear infinite}
 .stat,.hint{--b:var(--muted)}
@@ -119,16 +122,19 @@ input[type=checkbox]:checked::after{content:"";position:absolute;left:33%;top:12
 <input type="search" id="q" placeholder="নাম্বার বা নাম খুঁজুন…">
 <textarea id="msg" placeholder="পাঠানোর মেসেজ"></textarea>
 <div class="hint">WhatsApp বোতামে চাপলে এই মেসেজসহ চ্যাট খুলবে। imo বোতামে চাপলে মেসেজ কপি হয়ে imo অ্যাপ খুলবে, সেখানে পেস্ট করুন।</div>
-<div class="tabs">
+<div class="tabs" id="tabs-container">
 <button data-f="all" class="on"><span>সব</span></button>
 <button data-f="todo"><span>বাকি</span></button>
-<button data-f="i"><span>imo-তে নক দিয়েছি</span></button>
-<button data-f="ni"><span>imo-তে পাই নাই</span></button>
-<button data-f="w"><span>WhatsApp-এ নক দিয়েছি</span></button>
-<button data-f="nw"><span>WhatsApp-এ পাই নাই</span></button>
-<button data-f="none"><span>কোনো কিছু খুঁজে পাই নাই</span></button>
-<button data-f="c"><span>সব কমপ্লিট</span></button>
 </div>
+
+<!-- চেকবক্স লেবেল এডিট বা কাস্টমাইজ করার প্যানেল -->
+<div class="config-box">
+  <div style="font-weight:900;margin-bottom:6px;font-size:14px;color:#0d9488">⚙ চেকবক্স নাম ও এডিট প্যানেল</div>
+  <div id="ticks-config-list"></div>
+  <button id="add-tick-btn" type="button" style="margin-top:6px;font-size:12px;padding:4px 10px;">➕ নতুন চেকবক্স যোগ করুন</button>
+  <button id="save-ticks-btn" type="button" style="margin-top:6px;font-size:12px;padding:4px 10px;background:var(--accent);color:#fff;border-color:var(--accent)">সেভ করুন</button>
+</div>
+
 <details class="add"><summary>➕ নতুন নাম ও নাম্বার যোগ করুন</summary><textarea id="newnums" placeholder="যেমন: বিকাশ 017xxxxxxxx&#10;প্রতি লাইনে একটা দিন"></textarea><button id="addbtn"><span>যোগ করুন</span></button> <span id="addmsg" class="hint"></span></details>
 </div>
 </header>
@@ -152,20 +158,32 @@ const fbApp=initializeApp(firebaseConfig);
 const auth=getAuth(fbApp),db=getFirestore(fbApp);
 const NUMREF=doc(db,"data","fahim");
 let NUMS=[];
-const KEY="fk2-v1";
-let done=new Set(),filter="all",term="";
-try{done=new Set(JSON.parse(localStorage.getItem(KEY)||"[]"))}catch(e){}
-let W=new Set(),I=new Set();
-try{W=new Set(JSON.parse(localStorage.getItem("fk2-w")||"[]"));I=new Set(JSON.parse(localStorage.getItem("fk2-i")||"[]"))}catch(e){}
-let NI=new Set(),NW=new Set(),IO=new Set(),WO=new Set();
-try{NI=new Set(JSON.parse(localStorage.getItem("fk2-ni")||"[]"));NW=new Set(JSON.parse(localStorage.getItem("fk2-nw")||"[]"));IO=new Set(JSON.parse(localStorage.getItem("fk2-io")||"[]"));WO=new Set(JSON.parse(localStorage.getItem("fk2-wo")||"[]"))}catch(e){}
-let C=new Set();
-try{C=new Set(JSON.parse(localStorage.getItem("fk2-c")||"[]"))}catch(e){}
-const XK=["m1i","m2i","m1w","m1b","m2b","none"],X={};
-XK.forEach(k=>{X[k]=new Set();try{X[k]=new Set(JSON.parse(localStorage.getItem("fk2-"+k)||"[]"))}catch(e){}});
-function setOf(k){return X[k]||{w:W,i:I,ni:NI,nw:NW,io:IO,wo:WO,c:C}[k]}
-function isDone(n){return C.has(n)}
-function hasNoTick(n){return ![W,I,NI,NW,C].concat(XK.map(k=>X[k])).some(s=>s.has(n))}
+
+// ডিফল্ট চেকবক্স লিস্ট (আইডি এবং নাম)
+let tickConfigs = JSON.parse(localStorage.getItem("fk2_tick_configs") || JSON.stringify([
+  {id: "i", label: "imo-তে নক দিয়েছি"},
+  {id: "ni", label: "imo-তে পাই নাই"},
+  {id: "w", label: "WhatsApp-এ নক দিয়েছি"},
+  {id: "nw", label: "WhatsApp-এ পাই নাই"},
+  {id: "m1i", label: "1 IMO লাস্ট নাম্বার 50 মেসেজ দিছি"},
+  {id: "m2i", label: "2 IMO লাস্ট নাম্বার 29 মেসেজ দিছি"},
+  {id: "m1w", label: "1 WhatsApp লাস্ট নাম্বার 50 মেসেজ দিছি"},
+  {id: "m1b", label: "1 WhatsApp business last number 30 মেসেজ দিছি"},
+  {id: "m2b", label: "2 WhatsApp business লাস্ট নাম্বার 29 মেসেজ দিছি"},
+  {id: "none", label: "কোনো কিছু খুঁজে পাই নাই"},
+  {id: "c", label: "সব কমপ্লিট"}
+]));
+
+let checkboxData = {};
+tickConfigs.forEach(tc => {
+  try { checkboxData[tc.id] = new Set(JSON.parse(localStorage.getItem("fk2-" + tc.id) || "[]")); }
+  catch(e) { checkboxData[tc.id] = new Set(); }
+});
+
+function getTickSet(id){
+  if(!checkboxData[id]) checkboxData[id] = new Set();
+  return checkboxData[id];
+}
 
 function parseItem(item){
   const parts = String(item).trim().split(/\s+/);
@@ -177,41 +195,110 @@ function parseItem(item){
   return {name: "", num: item};
 }
 
-const TLAB2=[["i","imo-তে নক দিয়েছি"],["ni","imo-তে পাই নাই"],["w","WhatsApp-এ নক দিয়েছি"],["nw","WhatsApp-এ পাই নাই"],["io","imo-তে পেয়েছি, WhatsApp-এ পাই নাই"],["wo","WhatsApp-এ পেয়েছি, imo-তে পাই নাই"]];
-const TLAB=[["i","imo-তে নক দিয়েছি"],["w","WhatsApp-এ নক দিয়েছি"],["ni","imo-তে পাই নাই"],["nw","WhatsApp-এ পাই নাই"],["io","imo-তে পেয়েছি, WhatsApp-এ পাই নাই"]];
-const TLAB3=TLAB2.slice(0,4).concat([["m1i","1 IMO লাস্ট নাম্বার 50 মেসেজ দিছি"],["m2i","2 IMO লাস্ট নাম্বার 29 মেসেজ দিছি"],["m1w","1 WhatsApp লাস্ট নাম্বার 50 মেসেজ দিছি"],["m1b","1 WhatsApp business last number 30 মেসেজ দিছি"],["m2b","2 WhatsApp business লাস্ট নাম্বার 29 মেসেজ দিছি"],["none","কোনো কিছু খুঁজে পাই নাই"],["c","সব কমপ্লিট"]]);
-function ticksHtml(n){return '<div class="ticks">'+TLAB3.map(([k,t])=>'<label><input type="checkbox" data-k="'+k+'"'+(setOf(k).has(n)?" checked":"")+'> '+t+'</label>').join("")+'</div>'}
-function save(){try{localStorage.setItem(KEY,JSON.stringify([...done]));localStorage.setItem("fk2-w",JSON.stringify([...W]));localStorage.setItem("fk2-i",JSON.stringify([...I]));localStorage.setItem("fk2-ni",JSON.stringify([...NI]));localStorage.setItem("fk2-nw",JSON.stringify([...NW]));localStorage.setItem("fk2-io",JSON.stringify([...IO]));localStorage.setItem("fk2-wo",JSON.stringify([...WO]));localStorage.setItem("fk2-c",JSON.stringify([...C]));XK.forEach(k=>localStorage.setItem("fk2-"+k,JSON.stringify([...X[k]])))}catch(e){}}
+function ticksHtml(n){
+  return '<div class="ticks">' + tickConfigs.map(tc => '<label><input type="checkbox" data-k="'+tc.id+'"'+(getTickSet(tc.id).has(n)?" checked":"")+'> '+tc.label+'</label>').join("") + '</div>';
+}
+
+function saveTicksStorage(){
+  tickConfigs.forEach(tc => {
+    if(checkboxData[tc.id]){
+      localStorage.setItem("fk2-" + tc.id, JSON.stringify([...checkboxData[tc.id]]));
+    }
+  });
+  localStorage.setItem("fk2_tick_configs", JSON.stringify(tickConfigs));
+}
+
 const DEFAULT_MSG="আসসালামু আলাইকুম ভাই, 9 উইকেট থেকে অনলাইন মাস্টারে আদিন খান বলছি।";
 let MSG=DEFAULT_MSG;
 try{MSG=localStorage.getItem("fk2-msg")||DEFAULT_MSG}catch(e){}
 const msgEl=document.getElementById("msg");
 msgEl.value=MSG;
 msgEl.oninput=()=>{MSG=msgEl.value;try{localStorage.setItem("fk2-msg",MSG)}catch(e){}render()};
+
 const FRAMED=(()=>{try{return window.self!==window.top}catch(e){return true}})();
-const IS_AND=/Android/i.test(navigator.userAgent);function imoUrl(){return IS_AND?"intent:#Intent;action=android.intent.action.SEND;type=text/plain;package=com.imo.android.imoim;S.android.intent.extra.TEXT="+encodeURIComponent(MSG)+";end":"imo://"}
+const IS_AND=/Android/i.test(navigator.userAgent);
+function imoUrl(){return IS_AND?"intent:#Intent;action=android.intent.action.SEND;type=text/plain;package=com.imo.android.imoim;S.android.intent.extra.TEXT="+encodeURIComponent(MSG)+";end":"imo://"}
 function intl(n){const d=n.replace(/\D/g,"");if(d.startsWith("88"))return d;if(d.startsWith("0"))return "88"+d;return d}
 function valid(n){return /^8801\d{9}$/.test(intl(n))}
 const WA_SVG='<svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.700 6.700 0 0 1-3.300-2.900c-.2-.4.200-.4.700-1.300.1-.2 0-.3 0-.5l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.200c0 1.300.9 2.500 1 2.700.1.200 1.800 2.800 4.400 3.900 1.600.7 2.300.7 3.100.6.500-.1 1.500-.6 1.700-1.200.2-.6.2-1.100.2-1.200-.1-.1-.3-.2-.5-.3z"/></svg>';
 function waLink(n,pkg){const p=intl(n),t=encodeURIComponent(MSG);return IS_AND?"intent://send?phone="+p+"&text="+t+"#Intent;scheme=whatsapp;package="+pkg+";end":"https://wa.me/"+p+"?text="+t}
 function waBtns(n){return '<a class="ic wa" target="_blank" rel="noopener" title="WhatsApp" href="'+waLink(n,"com.whatsapp")+'">'+WA_SVG+'</a><a class="ic wa wb" target="_blank" rel="noopener" title="WhatsApp Business" href="'+waLink(n,"com.whatsapp.w4b")+'">'+WA_SVG+'<b class="bz">B</b></a>'}
+
 const list=document.getElementById("list");
-const TICK_FILTERS=["i","ni","w","nw","none","c"];
+let filter="all",term="";
+
+function renderConfigEditor(){
+  const container = document.getElementById("ticks-config-list");
+  container.innerHTML = "";
+  tickConfigs.forEach((tc, index) => {
+    const div = document.createElement("div");
+    div.className = "config-item";
+    div.innerHTML = `<input type="text" data-index="${index}" value="${tc.label}"><button type="button" data-del="${index}" style="background:#ef4444;color:#fff;border:none;border-radius:4px;padding:4px 8px;font-size:11px">✕</button>`;
+    container.appendChild(div);
+  });
+}
+
+document.getElementById("add-tick-btn").onclick = () => {
+  const newId = "t_" + Date.now();
+  tickConfigs.push({id: newId, label: "নতুন চেকবক্স"});
+  renderConfigEditor();
+};
+
+document.getElementById("ticks-config-list").onclick = (e) => {
+  const delBtn = e.target.closest("button[data-del]");
+  if(delBtn){
+    const idx = parseInt(delBtn.dataset.del);
+    tickConfigs.splice(idx, 1);
+    renderConfigEditor();
+  }
+};
+
+document.getElementById("save-ticks-btn").onclick = () => {
+  const inputs = document.querySelectorAll("#ticks-config-list input");
+  inputs.forEach(input => {
+    const idx = parseInt(input.dataset.index);
+    if(tickConfigs[idx]){
+      tickConfigs[idx].label = input.value.trim() || "চেকবক্স";
+    }
+  });
+  saveTicksStorage();
+  renderTabs();
+  render();
+  alert("চেকবক্স লেবেল সফলভাবে আপডেট করা হয়েছে!");
+};
+
+function renderTabs(){
+  const container = document.getElementById("tabs-container");
+  container.innerHTML = '<button data-f="all" class="'+(filter==="all"?"on":"")+'"><span>সব</span></button><button data-f="todo" class="'+(filter==="todo"?"on":"")+'"><span>বাকি</span></button>';
+  tickConfigs.forEach(tc => {
+    const btn = document.createElement("button");
+    btn.dataset.f = tc.id;
+    if(filter === tc.id) btn.className = "on";
+    btn.innerHTML = '<span>'+tc.label+'</span>';
+    container.appendChild(btn);
+  });
+}
+
 function render(){
   const t=term.replace(/[\s\-+]/g,"");
   list.innerHTML="";
   NUMS.forEach((item,i)=>{
     const {name, num} = parseItem(item);
-    const d=isDone(item);
-    if(filter==="todo"&&!hasNoTick(item))return;
-    if(TICK_FILTERS.includes(filter)&&!setOf(filter).has(item))return;
+    const isDoneC = getTickSet("c").has(item);
+    
+    if(filter==="todo"){
+      const hasAny = tickConfigs.some(tc => getTickSet(tc.id).has(item));
+      if(hasAny) return;
+    } else if(filter !== "all"){
+      if(!getTickSet(filter).has(item)) return;
+    }
+
     if(t&&!item.replace(/[\s\-+]/g,"").includes(t))return;
     const li=document.createElement("li");
-    if(d)li.className="done";
-    if(X.none.has(item))li.className+=" nf";
+    if(isDoneC)li.className="done";
+    if(getTickSet("none").has(item))li.className+=" nf";
     if(!valid(num))li.className+=" bad";
     
-    // ডিলিট বাটনটি একদম নিচে ডান কোণায় বসানো হয়েছে
     li.innerHTML='<span class="idx">'+(i+1)+'</span>' +
       '<div class="num-container">' +
       (name ? '<span class="name-title">'+name+'</span>' : '') +
@@ -230,12 +317,14 @@ function render(){
   if(!NUMS.length)list.innerHTML='<li style="cursor:default">কোনো নাম্বার নেই</li>';
   updateStat();
 }
+
 function updateStat(){
-  const c=NUMS.filter(isDone).length;
-  document.getElementById("stat").textContent="ব্যবহৃত: "+c+" / "+NUMS.length+" · বাকি: "+(NUMS.length-c)+" · WhatsApp: "+W.size+" · imo: "+I.size;
+  const c = NUMS.filter(item => getTickSet("c").has(item)).length;
+  const wCount = NUMS.filter(item => getTickSet("w").has(item) || getTickSet("m1w").has(item) || getTickSet("m1b").has(item) || getTickSet("m2b").has(item)).length;
+  const iCount = NUMS.filter(item => getTickSet("i").has(item) || getTickSet("m1i").has(item) || getTickSet("m2i").has(item)).length;
+  document.getElementById("stat").textContent="ব্যবহৃত: "+c+" / "+NUMS.length+" · বাকি: "+(NUMS.length-c)+" · WhatsApp: "+wCount+" · imo: "+iCount;
   document.getElementById("bar").style.width=(NUMS.length?c/NUMS.length*100:0)+"%";
 }
-function matches(n){return (filter!=="todo"||hasNoTick(n))&&(!TICK_FILTERS.includes(filter)||setOf(filter).has(n))}
 
 list.addEventListener("click",async e=>{
   const li=e.target.closest("li");if(!li)return;
@@ -244,9 +333,8 @@ list.addEventListener("click",async e=>{
   const delBtn=e.target.closest(".del-btn");
   if(delBtn){
     if(confirm("এই নাম্বারটি ডিলিট করতে চান?")){
-      try{
-        await setDoc(NUMREF,{nums:arrayRemove(n)},{merge:true});
-      }catch(err){alert("ডিলিট করা যায়নি");}
+      try{ await setDoc(NUMREF,{nums:arrayRemove(n)},{merge:true}); }
+      catch(err){ alert("ডিলিট করা যায়নি"); }
     }
     return;
   }
@@ -263,30 +351,35 @@ list.addEventListener("click",async e=>{
 
 list.addEventListener("change",e=>{
   const cb=e.target.closest("input[data-k]");if(!cb)return;
-  const li=cb.closest("li"),n=li.dataset.n,s=setOf(cb.dataset.k);
-  if(cb.checked)s.add(n);else s.delete(n);
-  save();
-  li.classList.toggle("done",isDone(n));
-  li.classList.toggle("nf",X.none.has(n));
+  const li=cb.closest("li"),n=li.dataset.n,k=cb.dataset.k;
+  const s = getTickSet(k);
+  if(cb.checked) s.add(n); else s.delete(n);
+  saveTicksStorage();
+  li.classList.toggle("done", getTickSet("c").has(n));
+  li.classList.toggle("nf", getTickSet("none").has(n));
   updateStat();
-  clearTimeout(li._t);
-  li.classList.remove("leaving");
-  if(!matches(n)){
-    li._t=setTimeout(()=>{
-      if(!matches(n)){li.classList.add("leaving");li._t=setTimeout(()=>li.remove(),450)}
-    },1000);
-  }
 });
+
 document.getElementById("q").oninput=e=>{term=e.target.value;render()};
-let flabel="সব";
-const tgBtn=document.getElementById("tg"),panelEl=document.getElementById("panel");
-function setTg(){const o=panelEl.classList.contains("open");tgBtn.classList.toggle("open",o);tgBtn.setAttribute("aria-expanded",o);tgBtn.firstElementChild.textContent=o?"▴ ছোট করুন":"⚙ "+flabel+" ▾"}
-tgBtn.onclick=()=>{panelEl.classList.toggle("open");setTg()};
-document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));
-  b.classList.add("on");filter=b.dataset.f;flabel=b.textContent.trim();panelEl.classList.remove("open");setTg();render();window.scrollTo(0,0);
+
+document.getElementById("tabs-container").addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if(!btn) return;
+  document.querySelectorAll("#tabs-container button").forEach(x=>x.classList.remove("on"));
+  btn.classList.add("on");
+  filter = btn.dataset.f;
+  render();
+  window.scrollTo(0,0);
 });
-document.getElementById("reset").onclick=()=>{if(confirm("সব টিক মুছে ফেলবেন?")){done.clear();C.clear();XK.forEach(k=>X[k].clear());W.clear();I.clear();NI.clear();NW.clear();IO.clear();WO.clear();save();render()}};
+
+document.getElementById("reset").onclick=()=>{
+  if(confirm("সব টিক মুছে ফেলবেন?")){
+    tickConfigs.forEach(tc => checkboxData[tc.id].clear());
+    saveTicksStorage();
+    render();
+  }
+};
+
 document.getElementById("addbtn").onclick=async()=>{
   const box=document.getElementById("newnums");
   const items=box.value.split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean);
@@ -295,9 +388,10 @@ document.getElementById("addbtn").onclick=async()=>{
   try{
     await setDoc(NUMREF,{nums:arrayUnion(...fresh)},{merge:true});
     box.value="";
-    document.getElementById("addmsg").textContent=fresh.length+"টা যোগ হয়েছে"+(items.length>fresh.length?", "+(items.length-fresh.length)+"টা আগে থেকেই ছিল":"");
-  }catch(e){document.getElementById("addmsg").textContent="যোগ করা যায়নি (শুধু অ্যাডমিন পারবে)"}
+    document.getElementById("addmsg").textContent=fresh.length+"টা যোগ হয়েছে";
+  }catch(e){document.getElementById("addmsg").textContent="যোগ করা যায়নি"}
 };
+
 document.getElementById("logout").onclick=()=>signOut(auth);
 
 async function emailLogin(){
@@ -306,64 +400,35 @@ async function emailLogin(){
   const pw=document.getElementById("lpass").value;
   if(!em||!pw){m.textContent="জিমেইল আর পাসওয়ার্ড দুটোই দিন";return}
   try{await signInWithEmailAndPassword(auth,em,pw)}
-  catch(e){
-    const c=e.code;
-    if(c==="auth/invalid-credential"||c==="auth/wrong-password"||c==="auth/user-not-found")m.textContent="জিমেইল বা পাসওয়ার্ড ভুল";
-    else if(c==="auth/invalid-email")m.textContent="জিমেইল ঠিকভাবে লিখুন";
-    else if(c==="auth/too-many-requests")m.textContent="অনেকবার ভুল হয়েছে, একটু পরে চেষ্টা করুন";
-    else if(c==="auth/network-request-failed")m.textContent="ইন্টারনেট সংযোগ চেক করুন";
-    else if(c==="auth/operation-not-allowed")m.textContent="জিমেইল-পাসওয়ার্ড লগ ইন চালু করা নেই";
-    else m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";
-  }
+  catch(e){m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";}
 }
 document.getElementById("ebtn").onclick=emailLogin;
 document.getElementById("lpass").addEventListener("keydown",e=>{if(e.key==="Enter")emailLogin()});
 
 document.getElementById("gbtn").onclick=async()=>{
   const m=document.getElementById("lmsg");m.textContent="";
-  const p=new GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
-  try{await signInWithPopup(auth,p)}
-  catch(e){
-    if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){try{await signInWithRedirect(auth,p)}catch(x){m.textContent="লগ ইন করা যায়নি"}}
-    else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";
-  }
+  const p=new GoogleAuthProvider();
+  try{await signInWithPopup(auth,p)}catch(e){try{await signInWithRedirect(auth,p)}catch(x){}}
 };
 
-let dip=null;
-const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
-const isIOS=/iPad|iPhone|iPod/i.test(navigator.userAgent);
-function showInstall(on){["install","install2"].forEach(id=>document.getElementById(id).style.display=on?"inline-block":"none")}
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();dip=e;if(!standalone)showInstall(true)});
-window.addEventListener("appinstalled",()=>{dip=null;showInstall(false)});
-["install","install2"].forEach(id=>document.getElementById(id).onclick=async()=>{if(!dip)return;dip.prompt();await dip.userChoice;dip=null;showInstall(false)});
-if(isIOS&&!standalone)document.getElementById("ioshint").style.display="block";
-let unsub=null;
-function showLogin(msg){
-  if(unsub){unsub();unsub=null}
-  NUMS=[];list.innerHTML="";
-  document.getElementById("app").style.display="none";
-  document.getElementById("login").style.display="flex";
-  document.getElementById("lmsg").textContent=msg||"";
-}
 onAuthStateChanged(auth,async user=>{
-  if(!user){showLogin();return}
-  const allowedEmails = ["9w.fahimkhan@gmail.com"];
-  const allowedUIDs = ["Q9dErcUg8dN1A2c3jjSYSJFNH0n1"];
-  const userEmail = (user.email || "").toLowerCase();
-  const ok = allowedEmails.includes(userEmail) || allowedUIDs.includes(user.uid);
-  const admin = true;
-
-  if(!ok){await signOut(auth);showLogin("এই অ্যাকাউন্টে ঢোকার অনুমতি নেই। অ্যাডমিনকে জানান।");return}
+  if(!user){
+    document.getElementById("app").style.display="none";
+    document.getElementById("login").style.display="flex";
+    return;
+  }
+  const ok = ["9w.fahimkhan@gmail.com"].includes((user.email||"").toLowerCase()) || user.uid==="Q9dErcUg8dN1A2c3jjSYSJFNH0n1";
+  if(!ok){await signOut(auth);return;}
   document.getElementById("login").style.display="none";
   document.getElementById("app").style.display="block";
-  document.querySelector(".add").style.display=admin?"block":"none";
-  unsub=onSnapshot(NUMREF,snap=>{
+  renderConfigEditor();
+  renderTabs();
+  onSnapshot(NUMREF,snap=>{
     const arr=snap.exists()?(snap.data().nums||[]):[];
     NUMS=[...new Set(arr.map(x=>String(x).trim()).filter(Boolean))];
     render();
-  },()=>showLogin("ডাটা পড়ার অনুমতি নেই।"));
+  });
 });
-if("serviceWorker" in navigator&&location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 </script>
 </body>
 </html>
