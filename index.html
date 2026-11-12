@@ -259,6 +259,12 @@ const USERS={
   "qqGBet1h6oXdvkAlFH6w54QXsDA2":"user2",
   "8oCHgvbZOlTZJt5ZzrCN7v6ZIPn2":"user3"
 };
+// ইমেইল দিয়েও লগ ইনের অনুমতি (UID না মিললে এটা কাজ করবে)
+const EMAILS={
+  "9w.fahimkhan@gmail.com":"fahim",
+  "himelsheikh.9w@gmail.com":"user2",
+  "faardinkhaan999@gmail.com":"user3"
+};
 let NUMREF=null;
 let unsubSnap=null;
 let NUMS=[];
@@ -641,8 +647,11 @@ onAuthStateChanged(auth,async user=>{
     return;
   }
 
-  const docId=USERS[user.uid];
-  if(!docId){await signOut(auth);return;}
+  const docId=USERS[user.uid]||EMAILS[(user.email||"").toLowerCase()];
+  if(!docId){
+    alert("অ্যাক্সেস নেই। UID: "+user.uid);
+    await signOut(auth);return;
+  }
   NUMREF=doc(db,"data",docId);
 
   if(localStorage.getItem("fk2-uid")!==user.uid){
