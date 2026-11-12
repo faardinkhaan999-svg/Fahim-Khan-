@@ -1,0 +1,22 @@
+@charset "UTF-8";
+html.fx li.card{border:2px solid var(--accent);overflow:hidden;margin-bottom:6px}
+html.fx li.done{border-color:var(--accent)}
+html.fx[data-ribbon="on"] li.card[data-idx]::after{content:"#" attr(data-idx) " এর শেষ";display:block;margin:12px -12px -12px;padding:7px;text-align:center;font-size:12px;font-weight:700;background:var(--accentbg);color:#085041;border-top:2px solid var(--accent)}
+html.fx li.sep{display:flex;align-items:center;gap:8px;margin:0 4px 6px;color:#94A3B8;font-size:11px}
+html.fx li.sep::before,html.fx li.sep::after{content:"";flex:1;border-top:1.5px dashed #94A3B8}
+html.fx .grp{--c:#BA7517;background:color-mix(in srgb,var(--c) 10%,#fff);border:1.5px solid color-mix(in srgb,var(--c) 45%,#fff)}
+html.fx .grp:has(rect[fill="#1A8CFF"]){--c:#1A8CFF}
+html.fx .grp:has(rect[fill="#25D366"]){--c:#25A244}
+html.fx .grp:has(rect[fill^="url"]){--c:#7F77DD}
+html.fx .grp .gh,html.fx .grp .r{color:color-mix(in srgb,var(--c) 55%,#000)}
+html.fx .gl .r+.r{border-top-color:color-mix(in srgb,var(--c) 30%,#fff)}
+html.fx .grp input[type=checkbox]{border:2px solid var(--c)}
+html.fx .grp input[type=checkbox]:checked{background:var(--c);border-color:var(--c)}
+html.fx .fin label:nth-child(1):not(:has(input:checked)){background:#FCEBEB;border-color:#F09595;color:#791F1F}
+html.fx .fin label:nth-child(2):not(:has(input:checked)){background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+html.fx .fin label:nth-child(1) input{border-color:#E24B4A}
+html.fx .fin label:nth-child(2) input{border-color:var(--accent)}
+html.fx #scroll{position:relative;overflow:hidden;padding:0;perspective:var(--fx-persp,1100px)}
+html.fx #wr{position:absolute;inset:0;transform-style:preserve-3d}
+html.fx #scroll .view{display:block;position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:14px 10px 20px;background:var(--bg);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+html.fx #scroll .view:not(.on){pointer-events:none}

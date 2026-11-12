@@ -1,0 +1,8 @@
+{
+  "shape": "cube",
+  "durationMs": 850,
+  "easing": "cubic-bezier(.3,.7,.25,1)",
+  "perspective": 1100,
+  "endRibbon": true,
+  "separator": true
+}
