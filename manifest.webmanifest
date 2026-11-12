@@ -16,13 +16,13 @@
       "purpose": "any"
     },
     {
-      "src": "file_0000000086e4820b83cabb93ef03475f.pngs",
+      "src": "file_0000000086e4820b83cabb93ef03475f.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "file_00000000ba34820b9ecbf4fa57e2fc4b.png",
+      "src": "file_0000000086e4820b83cabb93ef03475f.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
