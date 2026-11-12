@@ -51,9 +51,13 @@ function addStyle(){
   s.textContent=
   ".pz-ov{position:fixed;inset:0;z-index:300;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;font-family:system-ui,-apple-system,'Noto Sans Bengali',sans-serif;animation:pzf .2s ease-out}"+
   "@keyframes pzf{from{opacity:0}to{opacity:1}}"+
+  "@keyframes pzb{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}"+
   ".pz-pg{min-height:100%;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 22px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}"+
   ".pz-dark{background:#0b0b0b;color:#fff}"+
-  ".pz-card{width:100%;max-width:270px;aspect-ratio:3/4;border-radius:22px;background:linear-gradient(160deg,#0F6E56,#0b3d33);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.6);cursor:pointer}"+
+  ".pz-card{width:100%;max-width:300px;border-radius:24px;background:linear-gradient(160deg,#F0328A,"+PINK+" 55%,#9B0A4B);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:26px 20px;box-shadow:0 10px 40px rgba(226,19,110,.45);cursor:pointer;color:#fff}"+
+  ".pz-price{background:#fff;color:"+PINK+";border-radius:18px;padding:10px 26px;font-size:40px;font-weight:800;line-height:1.1}"+
+  ".pz-price small{display:block;font-size:13px;font-weight:600;color:#64748B}"+
+  ".pz-btn{background:#FFD60A;color:#1a1a1a;border-radius:999px;padding:12px 26px;font-size:16px;font-weight:800;animation:pzb 1.4s ease-in-out infinite}"+
   ".pz-img{display:block;max-width:100%;max-height:74vh;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.6);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}"+
   ".pz-pill{display:inline-block;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:9px 18px;font-size:13px;text-decoration:none}"+
   ".pz-pk{background:#fff;color:#0F172A;text-align:left;padding:0}"+
@@ -87,7 +91,11 @@ const LOGO='<span style="display:inline-flex;align-items:center;gap:6px;backgrou
 function pgPoster(){
   const card=(imgUrl&&!imgBad)
     ?'<img class="pz-img" data-a="pay" alt="" src="'+esc(imgUrl)+'">'
-    :'<div class="pz-card" data-a="pay"><div style="font-size:46px">🎁</div><div style="font-size:20px;font-weight:700;line-height:1.45">প্রিমিয়াম ফিচার পেতে এখনই পেমেন্ট করুন</div><div style="color:#9FE1CB;font-size:14px">বিকাশে মাত্র '+AMOUNT+' টাকা</div><div style="margin-top:8px;background:#fff;color:#0F6E56;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700">চাপ দিন ▸</div></div>';
+    :'<div class="pz-card" data-a="pay">'+LOGO+
+      '<div style="font-size:21px;font-weight:700;line-height:1.5">প্রিমিয়াম ফিচার আনলক করুন</div>'+
+      '<div class="pz-price">৳'+AMOUNT+'<small>শুধু একবার পেমেন্ট</small></div>'+
+      '<div style="font-size:14px;line-height:1.8;opacity:.95">✔ সব নাম্বার দেখুন<br>✔ কোনো বিজ্ঞাপন নেই<br>✔ বিকাশ সেন্ড মানিতে পেমেন্ট</div>'+
+      '<div class="pz-btn">পেমেন্ট করুন ▸</div></div>';
   return'<div class="pz-pg pz-dark">'+card+'<a class="pz-pill" href="'+CARE+'" target="_blank" rel="noopener">🎧 পেমেন্ট করতে না চাইলে কাস্টমার কেয়ার</a></div>';
 }
 function pgPay(){
@@ -209,7 +217,7 @@ async function start(){
     imgUrl=d.imageUrl||(Array.isArray(d.images)&&d.images[0]&&d.images[0].url)||"";
     imgBad=false;
     got.c=true;
-    if(cfgOn&&!,imgUrl&&!probed){probed=true;folderPoster().then(u=>{if(u){imgUrl=u;lastKey="";evalState()}})}
+    if(cfgOn&&!imgUrl&&!probed){probed=true;folderPoster().then(u=>{if(u){imgUrl=u;lastKey="";evalState()}})}
     evalState();
   },failOpen));
   unsubs.push(onSnapshot(doc(db,"access",uid),s=>{acc=s.exists()?s.data():null;got.a=true;evalState()},failOpen));
