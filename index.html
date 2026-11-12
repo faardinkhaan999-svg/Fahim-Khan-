@@ -627,7 +627,7 @@ async function emailLogin(){
   const pw=document.getElementById("lpass").value;
   if(!em||!pw){m.textContent="জিমেইল আর পাসওয়ার্ড দুটোই দিন";return}
   try{await signInWithEmailAndPassword(auth,em,pw)}
-  catch(e){m.textContent="লগ ইন করা যায়নি, আবার চেষ্টা করুন";}
+  catch(e){m.textContent="লগ ইন করা যায়নি: "+(e.code||e.message);}
 }
 document.getElementById("ebtn").onclick=emailLogin;
 document.getElementById("lpass").addEventListener("keydown",e=>{if(e.key==="Enter")emailLogin()});
@@ -635,7 +635,7 @@ document.getElementById("lpass").addEventListener("keydown",e=>{if(e.key==="Ente
 document.getElementById("gbtn").onclick=async()=>{
   const m=document.getElementById("lmsg");m.textContent="";
   const p=new GoogleAuthProvider();
-  try{await signInWithPopup(auth,p)}catch(e){try{await signInWithRedirect(auth,p)}catch(x){}}
+  try{await signInWithPopup(auth,p)}catch(e){try{await signInWithRedirect(auth,p)}catch(x){m.textContent="Google দিয়ে লগ ইন করা যায়নি: "+(x.code||x.message)}}
 };
 
 onAuthStateChanged(auth,async user=>{
