@@ -21,19 +21,46 @@ function start(cfg){
   sc.scrollTo=function(){home.scrollTo.apply(home,arguments)};
   root.classList.add("fx");
 
-  var ready=false;
+  var ready=false,timer=null;
   function cur(){for(var i=0;i<views.length;i++)if(views[i].classList.contains("on"))return i;return 0}
+  var last=cur();
+
+  /* ঘোরা শেষ: পেজ সমান (flat) অবস্থায় থাকে, তাই বোতামে ছোঁয়া ঠিকমতো কাজ করে */
+  function flat(){
+    var i=cur();
+    wr.style.transition="none";
+    wr.style.transform="none";
+    wr.style.transformStyle="flat";
+    views.forEach(function(v,j){
+      v.style.transform="none";
+      v.style.visibility=(j===i)?"visible":"hidden";
+    });
+    last=i;
+  }
+
   function layout(anim){
     var w=sc.clientWidth;if(!w)return;
     var n=c.shape==="ring"?8:4,st=360/n,R=(w/2)/Math.tan(Math.PI/n);
-    views.forEach(function(v,i){v.style.transform="rotateY("+i*st+"deg) translateZ("+R+"px)"});
-    wr.style.transition=anim?"transform "+dur+"ms "+c.easing:"none";
-    wr.style.transform="translateZ("+(-R)+"px) rotateY("+(-cur()*st)+"deg)";
-    ready=true;
+    var now=cur();
+    clearTimeout(timer);timer=null;
+    if(!anim||!ready||now===last||!dur){flat();ready=true;return}
+    /* ঘোরার সময়: 3D অবস্থা বানিয়ে পুরোনো পেজ থেকে নতুন পেজে ঘোরে */
+    wr.style.transformStyle="preserve-3d";
+    views.forEach(function(v,j){
+      v.style.visibility="visible";
+      v.style.transform="rotateY("+j*st+"deg) translateZ("+R+"px)";
+    });
+    wr.style.transition="none";
+    wr.style.transform="translateZ("+(-R)+"px) rotateY("+(-last*st)+"deg)";
+    void wr.offsetWidth;
+    wr.style.transition="transform "+dur+"ms "+c.easing;
+    wr.style.transform="translateZ("+(-R)+"px) rotateY("+(-now*st)+"deg)";
+    last=now;
+    timer=setTimeout(function(){timer=null;flat()},dur+60);
   }
   var tm=new MutationObserver(function(){layout(ready)});
   views.forEach(function(v){tm.observe(v,{attributes:true,attributeFilter:["class"]})});
-  if(window.ResizeObserver)new ResizeObserver(function(){layout(false)}).observe(sc);
+  if(window.ResizeObserver)new ResizeObserver(function(){if(!timer)layout(false)}).observe(sc);
   else window.addEventListener("resize",function(){layout(false)});
   layout(false);
 
